@@ -1,23 +1,6 @@
-<!DOCTYPE html>
-<html>
-<body>
+<form id="okakeibo" action="https://docs.google.com/forms/d/e/1FAIpQLSeLQ4pQ5xdWzNzDAR3whyzE7lijRt64BwTVLqTx5L49NTB7Hw/formResponse" method="POST" target="hidden_iframe" onsubmit="submitForm()">
+  <label>Did?<br></label><input value="test" id="text01" name="entry.619147708"><br>
  
-    <script>
-      function sendPostRequest() {
-  const url = "https://docs.google.com/forms/d/e/1FAIpQLSclCVskIXmLAdQskaGRDQoyY7BTjsLfEwib9-6BSY0algN9AA/formResponse";
-  const data = { entry.619147708: "test" };
-
-  fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-  });
-}
-
-// 関数を呼び出してPOSTリクエストを送信
-sendPostRequest();
-
-    </script>
-        <input type="submit" value="送信" id="submitBtn" >
-</body>
-</html>
+  <input type="submit" value="送信" id="submitBtn" onclick="myFunction0001()">
+  <iframe name="hidden_iframe" style="display:none" ></iframe>
+</form>
