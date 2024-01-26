@@ -1,50 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countup Timer</title>
-    <style>
-        #timer {
-            font-size: 24px;
-            font-weight: bold;
-            text-align: center;
-            margin-top: 20px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Sheets API</title>
 </head>
 <body>
-    <h1>Countup Timer</h1>
-    <div id="timer">00:00:00</div>
 
-    <script>
-        // カウントアップの開始日時を指定
-        const startTime = new Date("2024-01-01T12:00:00");
+<p id="time-difference"></p>
 
-        // タイマー表示用の要素を取得
-        const timerElement = document.getElementById('timer');
+<script>
+  // Google Sheets APIの設定
+  var spreadsheetId = 'YOUR_SPREADSHEET_ID';
+  var range = 'latest!A1'; // シート名とセルの範囲
+  var apiKey = 'AIzaSyCvkovQqfmxAGsz9H62GrCqOqlc7eKlTIw'; // サービス アカウントではなく、API キーを使用する場合
 
-        // タイマーを更新する関数
-        function updateTimer() {
-            const currentTime = new Date();
-            const elapsedTime = currentTime - startTime;
+  // Google Sheets APIを呼び出す関数
+  function getDataFromGoogleSheets() {
+    gapi.client.sheets.spreadsheets.values.get({
+      spreadsheetId: spreadsheetId,
+      range: range,
+    }).then(function(response) {
+      var spreadsheetDate = new Date(response.result.values[0][0]);
+      var currentDate = new Date();
 
-            // 時、分、秒を計算
-            const hours = Math.floor(elapsedTime / 3600000);
-            const minutes = Math.floor((elapsedTime % 3600000) / 60000);
-            const seconds = Math.floor((elapsedTime % 60000) / 1000);
+      var timeDifference = currentDate - spreadsheetDate;
+      var timeDifferenceInSeconds = timeDifference / 1000;
+      var seconds = Math.floor(timeDifferenceInSeconds % 60);
+      var timeDifferenceInMinutes = timeDifferenceInSeconds / 60;
+      var minutes = Math.floor(timeDifferenceInMinutes % 60);
+      var hours = Math.floor(timeDifferenceInMinutes / 60);
 
-            // タイマー表示を更新
-            timerElement.textContent = formatTime(hours) + ':' + formatTime(minutes) + ':' + formatTime(seconds);
-        }
+      var result = "差：" + hours + "時間 " + minutes + "分 " + seconds + "秒";
+      document.getElementById("time-difference").innerText = result;
+    }, function(response) {
+      console.error('Error: ' + response.result.error.message);
+    });
+  }
 
-        // 時間を2桁の数字にフォーマットする関数
-        function formatTime(time) {
-            return time < 10 ? '0' + time : time;
-        }
+  // Google Sheets APIを初期化
+  function initGoogleSheetsApi() {
+    gapi.client.init({
+      apiKey: apiKey,
+      discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
+    }).then(function() {
+      getDataFromGoogleSheets();
+    }, function(response) {
+      console.error('Error: ' + response.result.error.message);
+    });
+  }
 
-        // 1秒ごとにタイマーを更新
-        setInterval(updateTimer, 1000);
-    </script>
+  // Google API ライブラリを読み込む
+  function loadGoogleApi() {
+    var script = document.createElement('script');
+    script.src = 'https://apis.google.com/js/api.js';
+    script.onload = function() {
+      gapi.load('client', initGoogleSheetsApi);
+    };
+    document.head.appendChild(script);
+  }
+
+  // Google API ライブラリを読み込んで処理を開始
+  loadGoogleApi();
+
+</script>
+
 </body>
 </html>
