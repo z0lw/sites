@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countup Timer</title>
+    <style>
+        #timer {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Countup Timer</h1>
+    <div id="timer">00:00:00</div>
+
+    <script>
+        // カウントアップの開始日時を指定
+        const startTime = new Date("2024-01-01T12:00:00");
+
+        // タイマー表示用の要素を取得
+        const timerElement = document.getElementById('timer');
+
+        // タイマーを更新する関数
+        function updateTimer() {
+            const currentTime = new Date();
+            const elapsedTime = currentTime - startTime;
+
+            // 時、分、秒を計算
+            const hours = Math.floor(elapsedTime / 3600000);
+            const minutes = Math.floor((elapsedTime % 3600000) / 60000);
+            const seconds = Math.floor((elapsedTime % 60000) / 1000);
+
+            // タイマー表示を更新
+            timerElement.textContent = formatTime(hours) + ':' + formatTime(minutes) + ':' + formatTime(seconds);
+        }
+
+        // 時間を2桁の数字にフォーマットする関数
+        function formatTime(time) {
+            return time < 10 ? '0' + time : time;
+        }
+
+        // 1秒ごとにタイマーを更新
+        setInterval(updateTimer, 1000);
+    </script>
+</body>
+</html>
