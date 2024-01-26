@@ -1,69 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google Sheets API</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countup Timer from Google Sheets</title>
+    <style>
+        #timer {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
+    <h1>Countup Timer from Google Sheets</h1>
+    <div id="timer">00:00:00</div>
 
-<p id="time-difference"></p>
+    <script>
+        // Google Sheets APIからデータを取得する関数
+        async function fetchData() {
+            const spreadsheetId = '12vXzLohEhutos5lVRuWXg6IsQ0lM31MV494YgCSG2gg';
+            const sheetName = 'latest';
+            const apiKey = 'AIzaSyCvkovQqfmxAGsz9H62GrCqOqlc7eKlTIw';
 
-<script>
-  // Google Sheets APIの設定
-  var spreadsheetId = 'YOUR_SPREADSHEET_ID';
-  var range = 'latest!A1'; // シート名とセルの範囲
-  var apiKey = 'AIzaSyCvkovQqfmxAGsz9H62GrCqOqlc7eKlTIw'; // サービス アカウントではなく、API キーを使用する場合
+            const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}!A1?key=${apiKey}`);
+            const data = await response.json();
 
-  // Google Sheets APIを呼び出す関数
-  function getDataFromGoogleSheets() {
-    gapi.client.sheets.spreadsheets.values.get({
-      spreadsheetId: spreadsheetId,
-      range: range,
-    }).then(function(response) {
-      var spreadsheetDate = new Date(response.result.values[0][0]);
-      var currentDate = new Date();
+            return data;
+        }
 
-      var timeDifference = currentDate - spreadsheetDate;
-      var timeDifferenceInSeconds = timeDifference / 1000;
-      var seconds = Math.floor(timeDifferenceInSeconds % 60);
-      var timeDifferenceInMinutes = timeDifferenceInSeconds / 60;
-      var minutes = Math.floor(timeDifferenceInMinutes % 60);
-      var hours = Math.floor(timeDifferenceInMinutes / 60);
+        // タイマー表示用の要素を取得
+        const timerElement = document.getElementById('timer');
 
-      var result = "差：" + hours + "時間 " + minutes + "分 " + seconds + "秒";
-      document.getElementById("time-difference").innerText = result;
-    }, function(response) {
-      console.error('Error: ' + response.result.error.message);
-    });
-  }
+        // タイマーを更新する関数
+        function updateTimer(startDate) {
+            const currentTime = new Date();
+            const elapsedTime = currentTime - startDate;
 
-  // Google Sheets APIを初期化
-  function initGoogleSheetsApi() {
-    gapi.client.init({
-      apiKey: apiKey,
-      discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
-    }).then(function() {
-      getDataFromGoogleSheets();
-    }, function(response) {
-      console.error('Error: ' + response.result.error.message);
-    });
-  }
+            // 時、分、秒を計算
+            const hours = Math.floor(elapsedTime / 3600000);
+            const minutes = Math.floor((elapsedTime % 3600000) / 60000);
+            const seconds = Math.floor((elapsedTime % 60000) / 1000);
 
-  // Google API ライブラリを読み込む
-  function loadGoogleApi() {
-    var script = document.createElement('script');
-    script.src = 'https://apis.google.com/js/api.js';
-    script.onload = function() {
-      gapi.load('client', initGoogleSheetsApi);
-    };
-    document.head.appendChild(script);
-  }
+            // タイマー表示を更新
+            timerElement.textContent = formatTime(hours) + ':' + formatTime(minutes) + ':' + formatTime(seconds);
+        }
 
-  // Google API ライブラリを読み込んで処理を開始
-  loadGoogleApi();
+        // 時間を2桁の数字にフォーマットする関数
+        function formatTime(time) {
+            return time < 10 ? '0' + time : time;
+        }
 
-</script>
-
+        // Google Sheetsからデータを取得してタイマーをセット
+        fetchData().then(data => {
+            const dateString = data.values[0][0]; // データから日時の文字列を取得
+            const startDate = new Date(dateString); // 文字列を日時に変換
+            setInterval(() => updateTimer(startDate), 1000); // 1秒ごとにタイマーを更新
+        });
+    </script>
 </body>
 </html>
