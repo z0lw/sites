@@ -1,35 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google Sheets API Example</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countup Timer</title>
+    <style>
+        #timer {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
+    <h1>Countup Timer</h1>
+    <div id="timer">00:00:00</div>
 
-<div id="result"></div>
+    <script>
+        // カウントアップの開始日時を指定
+        const startTime = new Date("2024-01-26T00:15:00");
 
-<script>
-  // Google Sheets APIのエンドポイント
-  const sheetsAPIEndpoint = "https://sheets.googleapis.com/v4/spreadsheets/{SPREADSHEET_ID}/values/A1?key={API_KEY}";
+        // タイマー表示用の要素を取得
+        const timerElement = document.getElementById('timer');
 
-  // APIキーをここに設定
-  const apiKey = "AIzaSyCvkovQqfmxAGsz9H62GrCqOqlc7eKlTIw";
+        // タイマーを更新する関数
+        function updateTimer() {
+            const currentTime = new Date();
+            const elapsedTime = currentTime - startTime;
 
-  // Google Sheets APIからデータを取得してページに表示する関数
-  function showSheetData() {
-    fetch(sheetsAPIEndpoint.replace('{SPREADSHEET_ID}', '12vXzLohEhutos5lVRuWXg6IsQ0lM31MV494YgCSG2gg').replace('{API_KEY}', apiKey))
-      .then(response => response.json())
-      .then(data => {
-        const cellValue = data.values[0][0];
-        document.getElementById("result").innerText = "A1セルの値: " + cellValue;
-      })
-      .catch(error => console.error("エラー:", error));
-  }
+            // 時、分、秒を計算
+            const hours = Math.floor(elapsedTime / 3600000);
+            const minutes = Math.floor((elapsedTime % 3600000) / 60000);
+            const seconds = Math.floor((elapsedTime % 60000) / 1000);
 
-  // ページが読み込まれたらデータを取得して表示
-  window.onload = showSheetData;
-</script>
+            // タイマー表示を更新
+            timerElement.textContent = formatTime(hours) + ':' + formatTime(minutes) + ':' + formatTime(seconds);
+        }
 
+        // 時間を2桁の数字にフォーマットする関数
+        function formatTime(time) {
+            return time < 10 ? '0' + time : time;
+        }
+
+        // 1秒ごとにタイマーを更新
+        setInterval(updateTimer, 1000);
+    </script>
 </body>
 </html>
