@@ -1,6 +1,35 @@
 <!DOCTYPE html>
-<html>
-  <body>
-    <p>hello world</p>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Sheets API Example</title>
+</head>
+<body>
+
+<div id="result"></div>
+
+<script>
+  // Google Sheets APIのエンドポイント
+  const sheetsAPIEndpoint = "https://sheets.googleapis.com/v4/spreadsheets/{SPREADSHEET_ID}/values/A1?key={API_KEY}";
+
+  // APIキーをここに設定
+  const apiKey = "1fjkJ_vkoXNdVylL8ZUZxp9GRK4oNoxlAHUFZf-iCaw1hnaozlyxmfrr3";
+
+  // Google Sheets APIからデータを取得してページに表示する関数
+  function showSheetData() {
+    fetch(sheetsAPIEndpoint.replace('{SPREADSHEET_ID}', '12vXzLohEhutos5lVRuWXg6IsQ0lM31MV494YgCSG2gg').replace('{API_KEY}', apiKey))
+      .then(response => response.json())
+      .then(data => {
+        const cellValue = data.values[0][0];
+        document.getElementById("result").innerText = "A1セルの値: " + cellValue;
+      })
+      .catch(error => console.error("エラー:", error));
+  }
+
+  // ページが読み込まれたらデータを取得して表示
+  window.onload = showSheetData;
+</script>
+
+</body>
 </html>
