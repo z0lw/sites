@@ -115,33 +115,15 @@
         });
 
 
+
+
         // Function to disable the submit button for 3 seconds after clicking
         function disableSubmitButton() {
           
+          location.reload();
      
-      // submitボタンを無効化する
-  
-      setTimeout(function() {
-        document.getElementById("submitBtn").disabled = true;
-      }, 1);
-  
-  
-      // 0.1秒後から3秒後までsubmitボタンを無効化する
-      setTimeout(function() {
-        document.getElementById("submitBtn").disabled = false;
-      }, 3000);
-  
+    }
     
-            const submitButton = document.getElementById('submitBtn');
-       
-
-            submitButton.style.backgroundColor = '#3498db'; // Blue color for disabled state
-            setTimeout(() => {
-                submitButton.disabled = false;
-                submitButton.style.backgroundColor = '#ff5733'; // Reset to original color
-            }, 3000); // 3 seconds delay
-            location.reload();
-        }
     </script>
 
     <form id="okakeibo" action="https://docs.google.com/forms/d/e/1FAIpQLSclCVskIXmLAdQskaGRDQoyY7BTjsLfEwib9-6BSY0algN9AA/formResponse" method="POST" target="hidden_iframe" onsubmit="submitForm()">
