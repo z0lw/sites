@@ -73,7 +73,47 @@
     <div id="timer">00:00:00</div>
 
     <script>
-        // ... (your existing JavaScript code)
+                // Google Sheets APIからデータを取得する関数
+                async function fetchData() {
+            const spreadsheetId = '12vXzLohEhutos5lVRuWXg6IsQ0lM31MV494YgCSG2gg';
+            const sheetName = 'latest';
+            const apiKey = 'AIzaSyCvkovQqfmxAGsz9H62GrCqOqlc7eKlTIw';
+
+            const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}!A1?key=${apiKey}`);
+            const data = await response.json();
+
+            return data;
+        }
+
+        // タイマー表示用の要素を取得
+        const timerElement = document.getElementById('timer');
+
+        // タイマーを更新する関数
+        function updateTimer(startDate) {
+            const currentTime = new Date();
+            const elapsedTime = currentTime - startDate;
+
+            // 時、分、秒を計算
+            const hours = Math.floor(elapsedTime / 3600000);
+            const minutes = Math.floor((elapsedTime % 3600000) / 60000);
+            const seconds = Math.floor((elapsedTime % 60000) / 1000);
+
+            // タイマー表示を更新
+            timerElement.textContent = formatTime(hours) + ':' + formatTime(minutes) + ':' + formatTime(seconds);
+        }
+
+        // 時間を2桁の数字にフォーマットする関数
+        function formatTime(time) {
+            return time < 10 ? '0' + time : time;
+        }
+
+        // Google Sheetsからデータを取得してタイマーをセット
+        fetchData().then(data => {
+            const dateString = data.values[0][0]; // データから日時の文字列を取得
+            const startDate = new Date(dateString); // 文字列を日時に変換
+            setInterval(() => updateTimer(startDate), 1000); // 1秒ごとにタイマーを更新
+        });
+
 
         // Function to disable the submit button for 3 seconds after clicking
         function disableSubmitButton() {
@@ -84,6 +124,7 @@
                 submitButton.disabled = false;
                 submitButton.style.backgroundColor = '#ff5733'; // Reset to original color
             }, 3000); // 3 seconds delay
+            location.reload();
         }
     </script>
 
