@@ -117,8 +117,24 @@
 
         // Function to disable the submit button for 3 seconds after clicking
         function disableSubmitButton() {
+          
+     
+      // submitボタンを無効化する
+  
+      setTimeout(function() {
+        document.getElementById("submitBtn").disabled = true;
+      }, 1);
+  
+  
+      // 0.1秒後から3秒後までsubmitボタンを無効化する
+      setTimeout(function() {
+        document.getElementById("submitBtn").disabled = false;
+      }, 3000);
+  
+    
             const submitButton = document.getElementById('submitBtn');
-            submitButton.disabled = true;
+       
+
             submitButton.style.backgroundColor = '#3498db'; // Blue color for disabled state
             setTimeout(() => {
                 submitButton.disabled = false;
