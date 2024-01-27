@@ -1,5 +1,79 @@
-<form id="okakeibo" action="https://docs.google.com/forms/d/e/1FAIpQLSclCVskIXmLAdQskaGRDQoyY7BTjsLfEwib9-6BSY0algN9AA/formResponse" method="POST" target="hidden_iframe" onsubmit="submitForm()">
-  <label>Did?</label><input type="hidden" value="1" id="text01" name="entry.619147708"><br>
-  <input type="submit" value="送信" id="submitBtn" onclick="myFunction0001()">
-  <iframe name="hidden_iframe" style="display:none" ></iframe>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countup Timer from Google Sheets</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 48px;
+            color: #333;
+        }
+
+        #timer {
+            font-size: 36px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+            color: #007BFF;
+        }
+
+        form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        iframe {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>4</h1>
+    <div id="timer">00:00:00</div>
+
+    <script>
+        // ... (your JavaScript code)
+    </script>
+
+    <form id="okakeibo" action="https://docs.google.com/forms/d/e/1FAIpQLSclCVskIXmLAdQskaGRDQoyY7BTjsLfEwib9-6BSY0algN9AA/formResponse" method="POST" target="hidden_iframe" onsubmit="submitForm()">
+        <label>Did?</label><input type="hidden" value="1" id="text01" name="entry.619147708"><br>
+        <input type="submit" value="送信" id="submitBtn" onclick="myFunction0001()">
+        <iframe name="hidden_iframe" style="display:none"></iframe>
+    </form>
+</body>
+</html>
