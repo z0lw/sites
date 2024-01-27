@@ -5,11 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Countup Timer from Google Sheets</title>
     <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 48px;
+            color: #333;
+        }
+
         #timer {
-            font-size: 24px;
+            font-size: 36px;
             font-weight: bold;
             text-align: center;
             margin-top: 20px;
+            color: #ff5733; /* Warm color for timer */
+        }
+
+        form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #ff5733; /* Warm color for button */
+            color: #fff;
+            border: none;
+            border-radius: 10px; /* Rounded corners */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #e04828; /* Darker shade on hover */
+        }
+
+        input[type="submit"]:disabled {
+            background-color: #3498db; /* Blue color for disabled state */
+            cursor: not-allowed;
+        }
+
+        iframe {
+            display: none;
         }
     </style>
 </head>
@@ -18,8 +73,8 @@
     <div id="timer">00:00:00</div>
 
     <script>
-        // Google Sheets APIからデータを取得する関数
-        async function fetchData() {
+                // Google Sheets APIからデータを取得する関数
+                async function fetchData() {
             const spreadsheetId = '12vXzLohEhutos5lVRuWXg6IsQ0lM31MV494YgCSG2gg';
             const sheetName = 'latest';
             const apiKey = 'AIzaSyCvkovQqfmxAGsz9H62GrCqOqlc7eKlTIw';
@@ -58,20 +113,39 @@
             const startDate = new Date(dateString); // 文字列を日時に変換
             setInterval(() => updateTimer(startDate), 1000); // 1秒ごとにタイマーを更新
         });
+
+
+
+
+   
+    
     </script>
+
+    <form id="4" action="https://docs.google.com/forms/d/e/1FAIpQLSclCVskIXmLAdQskaGRDQoyY7BTjsLfEwib9-6BSY0algN9AA/formResponse" method="POST" target="hidden_iframe" onsubmit="submitForm()">
+        <label>Did?</label><input type="hidden" value="1" id="text01" name="entry.619147708"><br>
+        <input type="submit" value="送信" id="submitBtn" onclick="myFunction0001(); disableSubmitButton();">
+        <iframe name="hidden_iframe" style="display:none"></iframe>
+    </form>
+    <script>
+      function submitForm() {
+          // Additional form submission logic here, if needed
+          disableSubmitButton();
+          return true; // Allows the form to be submitted
+      }
+  
+      // Function to disable the submit button for 3 seconds after clicking
+      function disableSubmitButton() {
+          document.getElementById('submitBtn').disabled = true;
+          setTimeout(function() {
+              document.getElementById('submitBtn').disabled = false;
+          }, 3001); // 3 seconds
+
+          // After form submission, reload the page after 3 seconds
+        setTimeout(function() {
+            location.reload();
+        }, 3000); // 3000 milliseconds (3 seconds)
+          
+      }
+  </script>
 </body>
-<br><br>
-<form id="okakeibo" action="https://docs.google.com/forms/d/e/1FAIpQLSclCVskIXmLAdQskaGRDQoyY7BTjsLfEwib9-6BSY0algN9AA/formResponse" method="POST" target="hidden_iframe" onsubmit="submitForm()">
-    <label>Did?</label><input type="hidden" value="1" id="text01" name="entry.619147708"><br>
-    <input type="submit" value="送信" id="submitBtn" onclick="myFunction0001()">
-    <iframe name="hidden_iframe" style="display:none" ></iframe>
-    <style>
-        #timer {
-            font-size: 24px;
-            font-weight: bold;
-            text-align: center;
-            margin-top: 20px;
-        }
-    </style>
-  </form>
 </html>
