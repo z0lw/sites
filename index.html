@@ -83,7 +83,7 @@
     </style>
 </head>
 <body>
-    <h1>test</h1>
+    <h1 id="title"></h1>
     <div id="timer">00:00:00</div>
 
     <script>
@@ -126,6 +126,9 @@
             const dateString = data.values[0][0]; // データから日時の文字列を取得
             const startDate = new Date(dateString); // 文字列を日時に変換
             setInterval(() => updateTimer(startDate), 1000); // 1秒ごとにタイマーを更新
+    
+        const thirdValue = data.values[0][2]; // データから3番目の値を取得
+            document.getElementById('title').textContent = thirdValue; // <h1>要素のテキストを更新
         });
 
 
