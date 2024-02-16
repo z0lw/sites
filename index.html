@@ -128,7 +128,7 @@
             const startDate = new Date(dateString); // 文字列を日時に変換
             setInterval(() => updateTimer(startDate), 1000); // 1秒ごとにタイマーを更新
     
-        const thirdValue = 'こんにちわに移動'; // データから3番目の値を取得
+        const thirdValue = data.values[0]; // データから3番目の値を取得
         document.getElementById('title').textContent = thirdValue ; // <h1>要素のテキストを更新
 
         });
