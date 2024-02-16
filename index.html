@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activitya</title>
+    <title>Activityb</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -128,7 +128,7 @@
             setInterval(() => updateTimer(startDate), 1000); // 1秒ごとにタイマーを更新
     
         const thirdValue = data.values[0][2]; // データから3番目の値を取得
-            document.getElementById('title').textContent = thirdValue; // <h1>要素のテキストを更新
+            document.getElementById('title') = thirdValue; // <h1>要素のテキストを更新
         });
 
 
